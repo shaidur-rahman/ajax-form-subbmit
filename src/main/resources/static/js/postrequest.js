@@ -1,7 +1,5 @@
-$(document).ready(
-		function() {
-			//dataTable();
-			constractCategoryTable();
+$(document).ready(function() {
+	
 			// SUBMIT FORM
 			$("#save").click(function(event) {
 				// Prevent the form from submitting via the browser.
@@ -42,74 +40,18 @@ $(document).ready(
 			}
 
 			// Fetch data from database and load to bootstrap table
-			function dataTable(e) {
-				$.ajax({
-					type : "GET",
-					url : $('#baseUrl').attr('href') + "student/findStudents",
-					success : function(result) {
-						$.each(result.data, function(i, student) {
 
-							var studentRow = '<tr>' + '<td>' + student.id
-									+ '</td>' + '<td>' + student.firstName
-									+ '</td>' + '<td>' + student.lastName
-									+ '</td>' + '<td>' + student.gender
-									+ '</td>' + '<td>' + student.hobby
-									+ '</td>' + '<td>' + student.country
-									+ '</td>' + '<td>' + student.dateOfBirth
-									+ '</td>' + '</tr>';
-
-							$('#dataTable tbody').append(studentRow);
-
-						});
-
-						$("#dataTable tbody tr:odd").addClass("info");
-						$("#dataTable tbody tr:even").addClass("success");
-					},
-					error : function(e) {
-//						alert("ERROR: ", e);
-//						console.log("ERROR: ", e);
-					}
+			function constractCategoryTable(categories) {
+				var catagoryTable = $('#dataTable').DataTable();
+				catagoryTable.clear().draw();
+				$.each(categories, function(i, category) {
+					catagoryTable.row.add(
+							[ "", ++i, category.firstName, category.lastName,
+									category.gender, category.hobby,
+									category.country,
+									getActionButtons(category) ]).draw();
 				});
-
 			}
-			
-			
-			
-			
-			
-			
-			
-
-			function constractCategoryTable(categories){
-			var catagoryTable = $('#dataTable').DataTable();
-			catagoryTable.clear().draw();
-			$.each(categories, function(i, category){
-			catagoryTable.row.add([
-			"",
-			++i,
-			category.firstName,
-			category.lastName,
-			category.gender,
-			category.hobby,
-			category.country,
-			getActionButtons(category)
-			]).draw();
-			});
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 
 			function resetData() {
 				console.log('sahid');
@@ -122,4 +64,4 @@ $(document).ready(
 				$("#dateOfBirth").val("");
 
 			}
-		})
+		});

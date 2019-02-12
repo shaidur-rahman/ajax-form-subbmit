@@ -22,6 +22,10 @@ public class MetafourController {
 	public String loadHomePage() {
 		return "home";
 	}
+	@RequestMapping("/todoList")
+	public String loadTodoPage() {
+		return "index";
+	}
 
 	@RequestMapping("/addStudent")
 	public String getAddStudent(Model model) {
