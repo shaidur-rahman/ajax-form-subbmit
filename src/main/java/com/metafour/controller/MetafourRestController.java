@@ -37,13 +37,20 @@ public class MetafourRestController {
 	}
 
 	@PostMapping(value = "/saveTask")
-	public Response saveTask(ToDoTasks toDoTasks) {
+	public String saveTask(ToDoTasks toDoTasks) {
 		toDoTasksService.saveTask(toDoTasks);
-		return new Response("Done", toDoTasks);
+		return "Done";
 	}
 
 	@GetMapping(value = "/findTasks")
 	public List<ToDoTasks> findTasks() {
 		return toDoTasksService.findAllTask();
 	}
+
+	@PostMapping(value = "/daleteTask")
+	public String deleteTask(Long id) {
+		toDoTasksService.deleteTask(id);
+		return "Done";
+	}
+
 }

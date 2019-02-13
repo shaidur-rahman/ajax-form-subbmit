@@ -7,12 +7,12 @@ $(document).ready(function() {
 		url : $('#baseUrl').attr('href') + "student/findTasks",
 		success : function(obj) {
 			$.each(obj, function(i, tasks) {
-				console.log(tasks);
-				// data = JSON.parse(student);
-				
-					$('#task-item').append(++i);
-//				});
-				
+				//console.log(tasks);
+				data = tasks;
+
+				// $('#pending').append("<html>");
+				// });
+
 			});
 		},
 		error : function(e) {
@@ -24,7 +24,7 @@ $(document).ready(function() {
 data = data || {};
 
 (function(todo, data, $) {
-
+	console.log(data);
 	var defaults = {
 		todoTask : "todo-task",
 		todoHeader : "task-header",
@@ -124,6 +124,7 @@ data = data || {};
 
 	// Add Task
 	var generateElement = function(params) {
+		//(params.code)
 		var parent = $(codes[params.code]), wrapper;
 
 		if (!parent) {

@@ -22,4 +22,8 @@ public class ToDoTasksService {
 	public List<ToDoTasks> findAllTask() {
 		return toDoTasksRepository.findAll();
 	}
+	
+	public void deleteTask(Long id) {
+		toDoTasksRepository.deleteById(id);
+	}
 }
