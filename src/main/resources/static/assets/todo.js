@@ -26,7 +26,13 @@ $(document).ready(function() {
 	}
 
 	$('#addTask').click(function() {
+		var val1=$('#title').val();
+		var val2=$('#description').val();
+		if(val1>0 && val2>0){
 		addTask();
+		}else {
+			alert("Title / Description cannot be empty!!!");
+		}
 
 	});
 
@@ -139,6 +145,8 @@ $(document).ready(function() {
 				findTasks();
 				console.log(status);
 				if (status == "Done") {
+					$('#title').val("");
+					$('#description').val("");
 					console.log("Save ok");
 				} else {
 					console.log("Error from controller");
@@ -160,9 +168,10 @@ $(document).ready(function() {
 				console.log(task);
 				// if (task.id.length>0) {
 				$("#id").val(task.id);
+				$("#parent").val(task.parent);
 				$("#title").val(task.title);
 				$("#description").val(task.description);
-				$("#date").val(task.date);
+				
 				// } else {
 				// console.log("Error to getting task from controller");
 				// }

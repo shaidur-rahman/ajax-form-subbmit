@@ -39,9 +39,12 @@
 		<div class="task-list">
 			<h3>Add a task</h3>
 			<form id="addTaskForm">
-				<input type="hidden" id="id" name="id" /> <input type="hidden" id="parent" name="parent" value="pending" /> <input type="text" name="title" id="title" placeholder="Title" />
-				<textarea name="description" id="description" placeholder="Description"></textarea>
-				<input type="button" id="addTask" class="btn btn-primary" value="Add / Update"> <input type="button" class="btn btn-warning" value="Clear Data" onclick="todo.clear();" />
+				<input type="hidden" id="id" name="id" /> 
+				<input type="hidden" id="parent" name="parent" value="pending" /> 
+				<input type="text" name="title" id="title" placeholder="Title" required="required" />
+				<textarea name="description" id="description" placeholder="Description" required="required"></textarea>
+				<input type="button" id="addTask" class="btn btn-primary" value="Add / Update">
+				<button type="reset" class="btn btn-warning" value="Clear Data">Clear Data</button>
 
 			</form>
 
