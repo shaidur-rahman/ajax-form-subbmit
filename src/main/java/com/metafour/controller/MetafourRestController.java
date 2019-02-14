@@ -1,10 +1,10 @@
 package com.metafour.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +40,11 @@ public class MetafourRestController {
 	public String saveTask(ToDoTasks toDoTasks) {
 		toDoTasksService.saveTask(toDoTasks);
 		return "Done";
+	}
+
+	@GetMapping(value = "/getTask/{id}")
+	public ToDoTasks getTaskById(@PathVariable Long id) {
+		return this.toDoTasksService.getTaskById(id);
 	}
 
 	@GetMapping(value = "/findTasks")

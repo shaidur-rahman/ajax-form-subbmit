@@ -1,44 +1,49 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>AngelPrime to-do List</title>
+<title>To Do List</title>
 
 <link rel="stylesheet" href="lib/Bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" href="lib/jQuery/jquery.ui.min.css" />
 <link rel="stylesheet" href="assets/todo.css" />
 </head>
 
-<body class="well">
+<body id="body" class="well">
 	<div id="container">
 		<a id="baseUrl" th:href="@{/}"></a>
 		<div id="header">To Do List</div>
-
-		<div class="task-list task-container" id="pending">
-			<h3>Pending</h3>
-			<div class="todo-task ui-draggable" id="task-item" style="position: relative;">
+		<div class="task-list task-container">
+			<h3>To Do</h3>
+			<div id="pending">
+				<!-- <div class="todo-task ui-draggable" id="task-item" style="position: relative;">
 				<div class="task-header">
 				</div>
 				<div class="task-date"></div>
 				<div class="task-description"></div>
+			</div> -->
+			</div>
+			<div align="center">
+				<button class="btn btn-success">Add Task</button>
 			</div>
 		</div>
 
-		<div class="task-list task-container" id="inProgress">
+		<div class="task-list task-container">
 			<h3>In Progress</h3>
+			<div id="inProgress"></div>
 		</div>
 
-		<div class="task-list task-container" id="completed">
+		<div class="task-list task-container">
 			<h3>Completed</h3>
+			<div id="completed"></div>
 		</div>
 
 		<div class="task-list">
 			<h3>Add a task</h3>
 			<form id="addTaskForm">
-				<input type="text" name="title" placeholder="Title" />
-				<textarea name="description" placeholder="Description"></textarea>
-				<input type="text" name="date" id="date" placeholder="Due Date (dd/mm/yyyy)" /> <input type="button" id="addTask" class="btn btn-primary" value="Add Task" />
-			</form>
+				<input type="hidden" id="id" name="id" /> <input type="hidden" id="parent" name="parent" value="pending" /> <input type="text" name="title" id="title" placeholder="Title" />
+				<textarea name="description" id="description" placeholder="Description"></textarea>
+				<input type="button" id="addTask" class="btn btn-primary" value="Add / Update"> <input type="button" class="btn btn-warning" value="Clear Data" onclick="todo.clear();" />
 
-			<input type="button" class="btn btn-primary" value="Clear Data" onclick="todo.clear();" />
+			</form>
 
 			<div id="delete-div">Drag Here to Delete</div>
 		</div>
@@ -50,9 +55,6 @@
 		<script type="text/javascript" src="assets/todo.js"></script>
 
 		<script type="text/javascript">
-			$("#date").datepicker();
-			$("#date").datepicker("option", "dateFormat", "dd/mm/yy");
-
 			$(".task-container").droppable();
 			$(".todo-task").draggable({
 				revert : "valid",

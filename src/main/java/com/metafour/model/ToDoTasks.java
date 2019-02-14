@@ -1,20 +1,18 @@
 package com.metafour.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "todotasks")
 public class ToDoTasks implements Serializable {
 
@@ -31,8 +29,6 @@ public class ToDoTasks implements Serializable {
 	@Column(name = "description")
 	private String description;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Temporal(TemporalType.DATE)
-	@Column(name = "date")
-	private Date date;
+	@Column(name = "parent")
+	private String parent;
 }

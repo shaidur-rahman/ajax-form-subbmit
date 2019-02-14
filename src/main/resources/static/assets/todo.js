@@ -3,6 +3,28 @@ $(document).ready(function() {
 	// Calling findTasks() method
 	findTasks();
 
+	// Show Update & Delete icon
+	var taskid;
+	$('#pending').hover(function() {
+		$('div[class="todo-task ui-draggable"]').mouseenter(function() {
+			taskid = $(this).attr('id');
+			$('input[id=' + taskid + ']').show();
+			option();
+		}).mouseleave(function() {
+			$('input[id=' + taskid + ']').hide();
+
+		});
+	});
+
+	function option() {
+		$('input[id=' + taskid + '][value="Update"]').click(function() {
+			getTask(taskid);
+		});
+		$('input[id=' + taskid + '][value="Delete"]').click(function() {
+			deleteTask(taskid);
+		});
+	}
+
 	$('#addTask').click(function() {
 		addTask();
 
@@ -22,10 +44,12 @@ $(document).ready(function() {
 		dataAttribute : "data",
 		deleteDiv : "delete-div"
 	}, codes = {
-		"1" : "#pending", // For pending tasks
-		"2" : "#inProgress",
-		"3" : "#completed"
+		"pending" : "#pending", // For pending tasks
+		"inProgress" : "#inProgress",
+		"completed" : "#completed"
 	};
+
+	//$("." + defaults.todoTask).draggable();
 
 	// Fetch data from RestController
 	function findTasks() {
@@ -33,8 +57,10 @@ $(document).ready(function() {
 			type : "GET",
 			url : $('#baseUrl').attr('href') + "student/findTasks",
 			success : function(obj) {
+				$("#pending").empty();
+				$("#inProgress").empty();
+				$("#completed").empty();
 				$.each(obj, function(i, task) {
-
 					// Calling configure card function
 					configCard(task);
 				});
@@ -47,13 +73,12 @@ $(document).ready(function() {
 
 	// Configure data to HTMl card
 	function configCard(tasks) {
-		var parent = $(codes[1]), wrapper;
+		var parent = $(codes[tasks.parent]), wrapper;
 
 		if (!parent) {
 			return
 
 		}
-
 		wrapper = $("<div />", {
 			"class" : defaults.todoTask,
 			"id" : tasks.id,
@@ -75,13 +100,36 @@ $(document).ready(function() {
 			"text" : tasks.date
 		}).appendTo(wrapper);
 
-		$("<img />", {
-			//"class" : "btn btn-danger btn-circle btn-sm",
-			"src":"templates/delete.png"
+		$("<input />", {
+			"value" : "Update",
+			"style" : "display: none",
+			"type" : "button",
+			"id" : tasks.id,
+			"class" : "btn btn-primary"
 		}).appendTo(wrapper);
+
+		$("<input />", {
+			"value" : "Delete",
+			"style" : "display: none",
+			"type" : "button",
+			"id" : tasks.id,
+			"class" : "btn btn-danger"
+		}).appendTo(wrapper);
+				
+		wrapper.draggable({
+            start: function() {
+                $("#" + defaults.deleteDiv).show();
+            },
+            stop: function() {
+                $("#" + defaults.deleteDiv).hide();
+            },
+	        revert: "invalid",
+	        revertDuration : 200
+        });
+
 	}
 
-	// Get data from todo-form
+	// add task
 	function addTask() {
 		$.ajax({
 			type : "POST",
@@ -90,10 +138,6 @@ $(document).ready(function() {
 			success : function(status) {
 				findTasks();
 				console.log(status);
-				// Reset Form
-				inputs[0].value = "";
-				inputs[1].value = "";
-				inputs[2].value = "";
 				if (status == "Done") {
 					console.log("Save ok");
 				} else {
@@ -106,12 +150,37 @@ $(document).ready(function() {
 		});
 	}
 
+	// find Task
+	function getTask(taskId) {
+		$.ajax({
+			type : "Get",
+			url : $('#baseUrl').attr('href') + "student/getTask/" + taskId,
+			// data : {id : taskId},
+			success : function(task) {
+				console.log(task);
+				// if (task.id.length>0) {
+				$("#id").val(task.id);
+				$("#title").val(task.title);
+				$("#description").val(task.description);
+				$("#date").val(task.date);
+				// } else {
+				// console.log("Error to getting task from controller");
+				// }
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+			}
+		});
+	}
+
 	// Deleting Task
 	function deleteTask(taskId) {
 		$.ajax({
 			type : "POST",
-			url : $('#baseUrl').attr('href') + "student/deleteTask",
-			data : taskId,
+			url : $('#baseUrl').attr('href') + "student/daleteTask",
+			data : {
+				id : taskId
+			},
 			success : function(status) {
 				findTasks();
 				if (status == "Done") {
