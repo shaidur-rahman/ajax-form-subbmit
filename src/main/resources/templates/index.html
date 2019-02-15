@@ -5,13 +5,35 @@
 <link rel="stylesheet" href="lib/Bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" href="lib/jQuery/jquery.ui.min.css" />
 <link rel="stylesheet" href="assets/todo.css" />
+
+<!-- jQuery Modal -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+<style type="text/css">
+.modal {
+	width: 100px;
+	height: 100px;
+	margin: 0 auto;
+	display: table;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	border: 1px solid;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+</style>
 </head>
 
 <body id="body" class="well">
 	<div id="container">
 		<a id="baseUrl" th:href="@{/}"></a>
 		<div id="header">To Do List</div>
-		<div class="task-list task-container">
+		<div class="task-list task-container" id="1">
 			<h3>To Do</h3>
 			<div id="pending">
 				<!-- <div class="todo-task ui-draggable" id="task-item" style="position: relative;">
@@ -22,37 +44,41 @@
 			</div> -->
 			</div>
 			<div align="center">
-				<button class="btn btn-success">Add Task</button>
+				<button id="openModal" class="btn btn-success">Add Task</button>
 			</div>
 		</div>
 
-		<div class="task-list task-container">
+		<div class="task-list task-container" id="2">
 			<h3>In Progress</h3>
 			<div id="inProgress"></div>
 		</div>
 
-		<div class="task-list task-container">
+		<div class="task-list task-container" id="3">
 			<h3>Completed</h3>
 			<div id="completed"></div>
 		</div>
 
-		<div class="task-list">
-			<h3>Add a task</h3>
-			<form id="addTaskForm">
-				<input type="hidden" id="id" name="id" /> 
-				<input type="hidden" id="parent" name="parent" value="pending" /> 
-				<input type="text" name="title" id="title" placeholder="Title" required="required" />
-				<textarea name="description" id="description" placeholder="Description" required="required"></textarea>
-				<input type="button" id="addTask" class="btn btn-primary" value="Add / Update">
-				<button type="reset" class="btn btn-warning" value="Clear Data">Clear Data</button>
-
-			</form>
-
-			<div id="delete-div">Drag Here to Delete</div>
+		<div class="jquery-modal blocker current " id="modal" style="display: none">
+			<div class="modal">
+				<div class="task-list task-container">
+					<h3 id="heading">Add a task</h3>
+					<form id="addTaskForm" style="display: inline-block;">
+						<input type="hidden" id="id" name="id" /> 
+						<input type="hidden" id="parent" name="parent" value="pending" /> 
+						<input type="text" name="title" id="title" placeholder="Title" value=""/>
+						<textarea name="description" id="description" placeholder="Description" ></textarea>
+						<input type="button" id="addTask" class="btn btn-primary" value="Add Task">
+						<button type="reset" class="btn btn-warning" value="Clear Data">Clear Data</button>
+					</form>
+					<a href="#close-modal" id="closeModal" rel="modal:close" class="close-modal">Close</a>
+					<!-- <div id="delete-div">Drag Here to Delete</div> -->
+				</div>
+			</div>
 		</div>
 
 		<div style="clear: both;"></div>
 		<script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 		<script type="text/javascript" src="lib/Bootstrap/bootstrap.min.js"></script>
 		<script type="text/javascript" src="lib/jQuery/jquery.ui.min.js"></script>
 		<script type="text/javascript" src="assets/todo.js"></script>

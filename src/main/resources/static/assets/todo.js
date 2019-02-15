@@ -3,9 +3,40 @@ $(document).ready(function() {
 	// Calling findTasks() method
 	findTasks();
 
+	// Save or update operation
+	$('#addTask').click(function() {
+		var val1 = $('input[id="title"]').val();
+		var val2 = $('textarea[id="description"]').val();
+		var val3 = $('input[id="addTask"]').val();
+		console.log(val1, val2);
+		if (val1.length > 0 && val2.length > 0) {
+			addTask();
+			if (val3 == "Update") {
+				$('#modal').hide();
+				$('h3[id="heading"]').text("Add a task");
+				$("#addTask").val('Add Task');
+			}
+		} else {
+			alert("Title / Description cannot be empty!!!");
+		}
+
+	});
+
+	// When click add task
+	$('#openModal').click(function() {
+		$('#modal').show();
+
+	});
+
+	$('#closeModal').click(function() {
+		$('#modal').hide();
+		$('h3[id="heading"]').text("Add a task");
+		$("#addTask").val('Add Task');
+	});// End of click add task
+
 	// Show Update & Delete icon
 	var taskid;
-	$('#pending').hover(function() {
+	$('#pending').mousemove(function() {
 		$('div[class="todo-task ui-draggable"]').mouseenter(function() {
 			taskid = $(this).attr('id');
 			$('input[id=' + taskid + ']').show();
@@ -18,34 +49,23 @@ $(document).ready(function() {
 
 	function option() {
 		$('input[id=' + taskid + '][value="Update"]').click(function() {
-			getTask(taskid);
+			getTask(taskid, "pending", "btnUpdate");
 		});
 		$('input[id=' + taskid + '][value="Delete"]').click(function() {
 			deleteTask(taskid);
 		});
 	}
 
-	$('#addTask').click(function() {
-		var val1=$('#title').val();
-		var val2=$('#description').val();
-		if(val1>0 && val2>0){
-		addTask();
-		}else {
-			alert("Title / Description cannot be empty!!!");
-		}
-
-	});
-
 	// Initialize HTML content
 	var defaults = {
-		// CSS selectors and attributes that would be used by the JavaScript
+		// CSS selectors and attributes that would be used by the
+		// JavaScript
 		// functions(Elements Class name)
 
 		taskId : "task-",
 		formId : "todo-form",
 		todoTask : "todo-task",
 		todoHeader : "task-header",
-		todoDate : "task-date",
 		todoDescription : "task-description",
 		dataAttribute : "data",
 		deleteDiv : "delete-div"
@@ -53,9 +73,13 @@ $(document).ready(function() {
 		"pending" : "#pending", // For pending tasks
 		"inProgress" : "#inProgress",
 		"completed" : "#completed"
+	}, container = {
+		"1" : "#1",
+		"2" : "#2",
+		"3" : "#3",
 	};
 
-	//$("." + defaults.todoTask).draggable();
+	// $("." + defaults.todoTask).draggable();
 
 	// Fetch data from RestController
 	function findTasks() {
@@ -85,9 +109,11 @@ $(document).ready(function() {
 			return
 
 		}
+
 		wrapper = $("<div />", {
 			"class" : defaults.todoTask,
 			"id" : tasks.id,
+			"name" : "task-item",
 			"data" : tasks.id
 		}).appendTo(parent);
 
@@ -99,11 +125,6 @@ $(document).ready(function() {
 		$("<div />", {
 			"class" : defaults.todoDescription,
 			"text" : tasks.description
-		}).appendTo(wrapper);
-
-		$("<div />", {
-			"class" : defaults.todoDate,
-			"text" : tasks.date
 		}).appendTo(wrapper);
 
 		$("<input />", {
@@ -121,19 +142,36 @@ $(document).ready(function() {
 			"id" : tasks.id,
 			"class" : "btn btn-danger"
 		}).appendTo(wrapper);
-				
+
 		wrapper.draggable({
-            start: function() {
-                $("#" + defaults.deleteDiv).show();
-            },
-            stop: function() {
-                $("#" + defaults.deleteDiv).hide();
-            },
-	        revert: "invalid",
-	        revertDuration : 200
-        });
+			start : function() {
+			},
+			stop : function() {
+			},
+			revert : "invalid",
+			revertDuration : 200
+		});
 
 	}
+
+	// Drop function operation
+	$.each(container, function(index, value) {
+		var parent;
+		if (index == "1") {
+			parent = "pending";
+		} else if (index == "2") {
+			parent = "inProgress";
+		} else if (index == "3") {
+			parent = "completed";
+		}
+
+		$(value).droppable({
+			drop : function(event, ui) {
+				var element = ui.helper, id = element.attr("id");
+				getTask(id, parent, "dragUpdate");
+			}
+		});
+	});
 
 	// add task
 	function addTask() {
@@ -143,8 +181,9 @@ $(document).ready(function() {
 			data : $('#addTaskForm').serializeArray(),
 			success : function(status) {
 				findTasks();
-				console.log(status);
 				if (status == "Done") {
+					$('#id').val("");
+					$('#parent').val("");
 					$('#title').val("");
 					$('#description').val("");
 					console.log("Save ok");
@@ -158,23 +197,27 @@ $(document).ready(function() {
 		});
 	}
 
-	// find Task
-	function getTask(taskId) {
+	// Get Task by ID
+	function getTask(taskId, parent, option) {
 		$.ajax({
 			type : "Get",
 			url : $('#baseUrl').attr('href') + "student/getTask/" + taskId,
-			// data : {id : taskId},
 			success : function(task) {
-				console.log(task);
-				// if (task.id.length>0) {
-				$("#id").val(task.id);
-				$("#parent").val(task.parent);
-				$("#title").val(task.title);
-				$("#description").val(task.description);
-				
-				// } else {
-				// console.log("Error to getting task from controller");
-				// }
+				if (option == "btnUpdate") {
+					$('#modal').show();
+					$('h3[id="heading"]').text("Update Task");
+					$("#id").val(task.id);
+					$("#parent").val(task.parent);
+					$("#title").val(task.title);
+					$("#description").val(task.description);
+					$("#addTask").val('Update');
+				} else if (option == "dragUpdate") {
+					$("#id").val(task.id);
+					$("#parent").val(parent);
+					$("#title").val(task.title);
+					$("#description").val(task.description);
+					addTask();
+				}
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
