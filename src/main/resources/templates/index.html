@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="lib/Bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" href="lib/jQuery/jquery.ui.min.css" />
-<link rel="stylesheet" href="assets/todo.css" />
+<link rel="stylesheet" th:href="@{css/todo.css}" />
 
 <!-- jQuery Modal -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
@@ -31,6 +31,9 @@
 
 <body id="body" class="well">
 	<div id="container">
+		<div class="container-flood">
+			<a th:href="@{/}"><input type="button" class="btn btn-success" value="Go To Home"> </a>
+		</div>
 		<a id="baseUrl" th:href="@{/}"></a>
 		<div id="header">To Do List</div>
 		<div class="task-list task-container" id="1">
@@ -63,10 +66,8 @@
 				<div class="task-list task-container">
 					<h3 id="heading">Add a task</h3>
 					<form id="addTaskForm" style="display: inline-block;">
-						<input type="hidden" id="id" name="id" /> 
-						<input type="hidden" id="parent" name="parent" value="pending" /> 
-						<input type="text" name="title" id="title" placeholder="Title" value=""/>
-						<textarea name="description" id="description" placeholder="Description" ></textarea>
+						<input type="hidden" id="id" name="id" /> <input type="hidden" id="parent" name="parent" value="pending" /> <input type="text" name="title" id="title" placeholder="Title" value="" />
+						<textarea name="description" id="description" placeholder="Description"></textarea>
 						<input type="button" id="addTask" class="btn btn-primary" value="Add Task">
 						<button type="reset" class="btn btn-warning" value="Clear Data">Clear Data</button>
 					</form>
@@ -81,17 +82,9 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 		<script type="text/javascript" src="lib/Bootstrap/bootstrap.min.js"></script>
 		<script type="text/javascript" src="lib/jQuery/jquery.ui.min.js"></script>
-		<script type="text/javascript" src="assets/todo.js"></script>
-
-		<script type="text/javascript">
-			$(".task-container").droppable();
-			$(".todo-task").draggable({
-				revert : "valid",
-				revertDuration : 200
-			});
-			//todo.init();
-		</script>
-
+		<script type="text/javascript" th:src="@{/js/todo.js}"></script>
 	</div>
+
+
 </body>
 </html>

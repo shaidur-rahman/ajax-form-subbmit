@@ -8,7 +8,6 @@ $(document).ready(function() {
 		var val1 = $('input[id="title"]').val();
 		var val2 = $('textarea[id="description"]').val();
 		var val3 = $('input[id="addTask"]').val();
-		console.log(val1, val2);
 		if (val1.length > 0 && val2.length > 0) {
 			addTask();
 			if (val3 == "Update") {
@@ -22,12 +21,13 @@ $(document).ready(function() {
 
 	});
 
-	// When click add task
+	// When click add task to save new task
 	$('#openModal').click(function() {
 		$('#modal').show();
 
 	});
 
+	// Click to close modal page
 	$('#closeModal').click(function() {
 		$('#modal').hide();
 		$('h3[id="heading"]').text("Add a task");
@@ -36,8 +36,8 @@ $(document).ready(function() {
 
 	// Show Update & Delete icon
 	var taskid;
-	$('#pending').mousemove(function() {
-		$('div[class="todo-task ui-draggable"]').mouseenter(function() {
+	$('#pending').hover(function() {
+		$('div[name="task-item-pending"]').mouseenter(function() {
 			taskid = $(this).attr('id');
 			$('input[id=' + taskid + ']').show();
 			option();
@@ -48,7 +48,7 @@ $(document).ready(function() {
 	});
 
 	function option() {
-		$('input[id=' + taskid + '][value="Update"]').click(function() {
+		$('input[id=' + taskid + '][value="Edit"]').click(function() {
 			getTask(taskid, "pending", "btnUpdate");
 		});
 		$('input[id=' + taskid + '][value="Delete"]').click(function() {
@@ -108,12 +108,13 @@ $(document).ready(function() {
 		if (!parent) {
 			return
 
-		}
+			
 
+		}
 		wrapper = $("<div />", {
 			"class" : defaults.todoTask,
 			"id" : tasks.id,
-			"name" : "task-item",
+			"name" : "task-item-" + tasks.parent,
 			"data" : tasks.id
 		}).appendTo(parent);
 
@@ -128,7 +129,7 @@ $(document).ready(function() {
 		}).appendTo(wrapper);
 
 		$("<input />", {
-			"value" : "Update",
+			"value" : "Edit",
 			"style" : "display: none",
 			"type" : "button",
 			"id" : tasks.id,
