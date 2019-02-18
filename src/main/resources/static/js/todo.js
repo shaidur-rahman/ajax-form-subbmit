@@ -24,6 +24,10 @@ $(document).ready(function() {
 	// When click add task to save new task
 	$('#openModal').click(function() {
 		$('#modal').show();
+		$('#id').val("");
+		$('#parent').val("pending");
+		$('#title').val("");
+		$('#description').val("");
 		$('#message').text("");
 	});
 
