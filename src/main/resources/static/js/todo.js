@@ -111,7 +111,8 @@ $(document).ready(function() {
 
 		if (!parent) {
 			return
-	}
+
+		}
 		wrapper = $("<div />", {
 			"class" : defaults.todoTask,
 			"id" : tasks.id,
@@ -185,7 +186,6 @@ $(document).ready(function() {
 				findTasks();
 				if (status == "Done") {
 					$('#id').val("");
-					$('#parent').val("");
 					$('#title').val("");
 					$('#description').val("");
 					$('#message').text("Successfully saved");
