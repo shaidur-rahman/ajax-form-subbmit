@@ -66,13 +66,13 @@
 				<div class="task-list task-container">
 					<h3 id="heading">Add a task</h3>
 					<form id="addTaskForm" style="display: inline-block;">
-						<input type="hidden" id="id" name="id" /> <input type="hidden" id="parent" name="parent" value="pending" /> <input type="text" name="title" id="title" placeholder="Title" value="" />
+						<font color="green"> <label id="message"></label>
+						</font> <input type="hidden" id="id" name="id" /> <input type="hidden" id="parent" name="parent" value="pending" /> <input type="text" name="title" id="title" placeholder="Title" value="" />
 						<textarea name="description" id="description" placeholder="Description"></textarea>
 						<input type="button" id="addTask" class="btn btn-primary" value="Add Task">
 						<button type="reset" class="btn btn-warning" value="Clear Data">Clear Data</button>
 					</form>
 					<a href="#close-modal" id="closeModal" rel="modal:close" class="close-modal">Close</a>
-					<!-- <div id="delete-div">Drag Here to Delete</div> -->
 				</div>
 			</div>
 		</div>

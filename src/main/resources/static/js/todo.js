@@ -24,7 +24,7 @@ $(document).ready(function() {
 	// When click add task to save new task
 	$('#openModal').click(function() {
 		$('#modal').show();
-
+		$('#message').text("");
 	});
 
 	// Click to close modal page
@@ -107,10 +107,7 @@ $(document).ready(function() {
 
 		if (!parent) {
 			return
-
-			
-
-		}
+	}
 		wrapper = $("<div />", {
 			"class" : defaults.todoTask,
 			"id" : tasks.id,
@@ -187,7 +184,7 @@ $(document).ready(function() {
 					$('#parent').val("");
 					$('#title').val("");
 					$('#description').val("");
-					console.log("Save ok");
+					$('#message').text("Successfully saved");
 				} else {
 					console.log("Error from controller");
 				}
@@ -206,6 +203,7 @@ $(document).ready(function() {
 			success : function(task) {
 				if (option == "btnUpdate") {
 					$('#modal').show();
+					$('#message').text("");
 					$('h3[id="heading"]').text("Update Task");
 					$("#id").val(task.id);
 					$("#parent").val(task.parent);
