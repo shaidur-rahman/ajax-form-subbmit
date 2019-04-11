@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.metafour.model.Student;
+import com.metafour.model.ToDoTasks;
 import com.metafour.service.StudentService;
 
 @Controller
@@ -23,13 +24,15 @@ public class MetafourController {
 		return "home";
 	}
 	@RequestMapping("/todoList")
-	public String loadTodoPage() {
+	public String loadTodoPage(Model model) {
+		model.addAttribute("todoList", new ToDoTasks());
 		return "index";
 	}
 
 	@RequestMapping("/addStudent")
 	public String getAddStudent(Model model) {
 		model.addAttribute("student", new Student());
+		model.addAttribute("success", null);
 		return "addStudent";
 	}
 

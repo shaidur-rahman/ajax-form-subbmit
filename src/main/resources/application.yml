@@ -1,0 +1,60 @@
+server:
+  port : 8080
+  error:
+    whitelabel:
+      enabled: true
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  thymeleaf:
+    cache: false
+  datasource:
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/todoapp
+    username: postgres
+    password: postgres%123
+    dbcp2:
+      test-while-idle: true
+      validation-query: SELECT 1
+    tomcat:
+      max-wait: 20000
+      max-active: 50
+      max-idle: 20
+      min-idle: 15
+  jpa:
+    show-sql: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  jackson:
+    serialization:
+      indent-output: true
+  banner:
+    location: coderslab.txt
+
+#security:
+#  oauth2:
+#    client:
+#      clientId: 205136759950-668p65oro3g6qqvvpnabhvnfhno8kqdg.apps.googleusercontent.com
+#      clientSecret: GzhGOcVResVudHHR6ES44xbs
+#      accessTokenUri: https://www.googleapis.com/oauth2/v3/token
+#      userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
+#      tokenName: oauth_token
+#      authenticationScheme: query
+#      clientAuthenticationScheme: form
+#      scope: profile email
+#    resource: 
+#      userInfoUri: https://www.googleapis.com/userinfo/v2/me
+#      preferTokenInfo: false
